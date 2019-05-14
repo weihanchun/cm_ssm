@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cm.mapper.ProductMapper">
+	<!-- 查询 -->
+	<select id="list" resultType="Product">
+		select * from product where cid=#{cid} and isdelete!="Y"
+	</select>
+	<!-- 搜索查询 -->
+	<select id="listByName" parameterType="string"	resultType="Product">
+		select * from product where name like concat('%',#{0},'%')
+	</select>
+	<!-- 增加 -->
+	<insert id="add" parameterType="Product">
+		insert into product
+		(name,cid,subTitle,originalPrice,promotePrice,createDate,stock) values
+		(#{name},#{cid},#{subTitle},#{originalPrice},#{promotePrice},#{createDate},#{stock})
+	</insert>
+	<!-- 删除 -->
+	<update id="delete" parameterType="Product">
+		update product set isdelete=#{isdelete} where id=#{id}
+	</update>
+	<!-- 获取 (不加参数类型也可以) -->
+	<select id="get" resultType="Product">
+		select * from product where id=#{id}
+	</select>
+	<!-- 改 -->
+	<update id="update" parameterType="Product">
+		update product
+		<set>
+			<if test="name!=null and name!=''">
+				name=#{name},
+			</if>
+			<if test="subTitle!=null and subTitle!=''">
+				subTitle=#{subTitle},
+			</if> 
+			<if test="originalPrice!=null and originalPrice!=''">
+				originalPrice=#{originalPrice},
+			</if>
+			<if test="promotePrice!=null and promotePrice!=''">
+				promotePrice=#{promotePrice},
+			</if>
+			<if test="stock!=null and stock!=''">
+				stock=#{stock},
+			</if>
+		</set>
+		where id=#{id}
+	</update>
+</mapper>

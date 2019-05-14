@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cm.mapper.OrderMapper">
+    <select id="list" resultType="Order">
+        select * from order_ order by id desc
+    </select>
+    <select id="listByStatus" resultType="Order">
+        select * from order_  where uid=#{uid} and Status!=#{excludedStatus} order by id desc
+    </select>
+    <!-- sql片段重复利用代码 -->
+	<sql id="insert_params">
+		(id,orderCode,address,post,receiver,mobile,userMessage,
+		createDate,payDate,deliveryDate,confirmDate,uid,status)
+	</sql>
+	<sql id="insert_values">
+		(#{id},#{orderCode},#{address},#{post},#{receiver},#{mobile},
+		#{userMessage},#{createDate},#{payDate},#{deliveryDate},#{confirmDate},#{uid},#{status})
+	</sql>
+	<!-- 添加 -->
+	<insert id="add" keyProperty="id" useGeneratedKeys="true" parameterType="Order">
+		insert into order_
+		<include refid="insert_params" />
+		values
+		<include refid="insert_values" />
+	</insert>
+    <!-- 删除 -->
+    <delete id="delete">
+         delete from order_ where id=#{id}
+    </delete>
+    <!-- 获取  (不加参数类型也可以)-->
+    <select id="get" resultType="Order">
+         select * from order_ where id=#{id}
+    </select>
+    <!-- 改 -->
+    <update id="update" parameterType="Order">
+         update order_ 
+         <set>
+            <if test="address!=null and address!=''">
+                address=#{address},
+            </if>
+            <if test="post!=null and post!=''">
+                post=#{post},
+            </if>
+            <if test="receiver!=null and receiver!=''">
+                receiver=#{receiver},
+            </if>
+            <if test="mobile!=null and mobile!=''">
+                mobile=#{mobile},
+            </if>
+            <if test="userMessage!=null and userMessage!=''">
+                userMessage=#{userMessage},
+            </if>
+            <if test="payDate!=null and payDate!=''">
+                payDate=#{payDate},
+            </if>
+            <if test="deliveryDate!=null and deliveryDate!=''">
+                deliveryDate=#{deliveryDate},
+            </if>
+            <if test="confirmDate!=null and confirmDate!=''">
+                confirmDate=#{confirmDate},
+            </if>
+            <if test="status!=null and status!=''">
+                status=#{status},
+            </if>
+         </set>
+         where id=#{id}
+    </update>
+</mapper>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cm.mapper.ProductImageMapper">
+    <!-- 查询 -->
+    <select id="list" resultType="ProductImage">
+        select * from productimage where pid=#{pid} and type=#{type}
+    </select>
+    <!-- 增加 -->
+    <insert id="add" parameterType="ProductImage">
+    <!-- selectKey标签：将插入到数据库的某条记录的主键，返回到指定对象（ProductImage）对应属性中。
+         keyProperty:指定返回的主键，存储在对象中（ProductImage）的哪个属性
+         order：相对于insert语句，selectKey标签中的sql的执行顺序。
+                   由于mysql的自增原理，执行完insert语句之后才将主键生成，所以这里selectKey的执行顺序为after。
+         resultType:返回的主键对应的JAVA类型
+         LAST_INSERT_ID():是mysql的函数，返回auto_increment自增列新记录id值。 -->
+    <!-- selectKey将主键返回，需要再返回 -->
+		<selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+			select LAST_INSERT_ID()
+		</selectKey>
+        insert into productimage (pid,type) values (#{pid},#{type})
+    </insert>
+    <!-- 删除 -->
+    <delete id="delete">
+         delete from productimage where id=#{id}
+    </delete>
+    <!-- 获取  (不加参数类型也可以)-->
+    <select id="get" resultType="ProductImage">
+         select * from productimage where id=#{id}
+    </select>
+</mapper>

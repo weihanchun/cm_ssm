@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cm.mapper.ReviewMapper">
+    <select id="list" resultType="Review">
+        select * from review where pid=#{pid} order by id desc
+    </select>
+    <select id="listByOid" resultType="Review">
+        select * from review where oid=#{oid}
+    </select>
+    <select id="getCount" resultType="int">
+        select count(*) from review where pid=#{pid}
+    </select>
+    <!--需要加上2个属性：keyProperty="id" useGeneratedKeys="true" 
+           以确保对象通过mybatis增加到数据库之后得到的id增长值会被设置在对象上。-->
+    <insert id="add" keyProperty="id" useGeneratedKeys="true" parameterType="Review">
+        insert into review (content,pid,uid,createDate) values (#{content},#{pid},#{uid},#{createDate})
+    </insert>
+    <!-- 删除 -->
+    <delete id="delete">
+         delete from review where id=#{id}
+    </delete>
+    <!-- 获取  (不加参数类型也可以)-->
+    <select id="get" resultType="Review">
+         select * from review where id=#{id}
+    </select>
+    <!-- 改 -->
+    <update id="update" parameterType="Review">
+         update review set content=#{content} where id=#{id}
+    </update>
+</mapper>

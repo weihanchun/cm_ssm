@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cm.mapper.CollectionMapper">
+    <!-- 用于显示 -->
+    <select id="listByUid" resultType="Collection">
+          select * from collection where uid=#{uid}
+    </select>
+    <!-- 加入收藏 -->
+    <insert id="add" keyProperty="id" useGeneratedKeys="true" parameterType="Collection">
+          insert into collection (uid,pid) values (#{uid},#{pid})
+    </insert>
+    <!-- 删除 -->
+    <delete id="delete">
+         delete from collection where id=#{id}
+    </delete>
+</mapper>

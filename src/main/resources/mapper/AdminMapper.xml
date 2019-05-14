@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cm.mapper.AdminMapper">
+    <select id="list" resultType="Admin">
+        select * from admin_
+    </select>
+    <select id="selectByName" resultType="Admin">
+        select * from admin_ where name=#{name}
+    </select>
+    <select id="selectByNameAndPassWord" resultType="Admin">
+        select * from admin_ where name=#{name} and password=#{password}
+    </select>
+    <insert id="add" keyProperty="id" useGeneratedKeys="true" parameterType="Admin">
+        insert into admin_ (name,password) values (#{name},#{password})
+    </insert>
+    <!-- 删除 -->
+    <delete id="delete">
+         delete from admin_ where id=#{id}
+    </delete>
+    <!-- 获取  (不加参数类型也可以)-->
+    <select id="get" resultType="Admin">
+         select * from admin_ where id=#{id}
+    </select>
+    <!-- 改 -->
+    <update id="update" parameterType="Admin">
+         update admin_ set name=#{name},password=#{password} where id=#{id}
+    </update>
+</mapper>
